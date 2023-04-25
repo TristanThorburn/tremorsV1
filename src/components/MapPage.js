@@ -31,6 +31,7 @@ const MapPage = () => {
     //set it on app load
     const[heroInfo,setHeroInfo]= useState({})
     const[isHeroObjectReady,SetIsHeroObjectReady]=useState(false);
+    const presentDate = new Date().toISOString().slice(0, 10);
 
 
     const writeToFirebase=(feed)=>{
@@ -40,7 +41,6 @@ const MapPage = () => {
             //if event magnitude is greater than 3.5 item.properties.mag
             if(item.properties.mag>=3.5){
                 responder='Rich Mortal';
-                
             }else if(item.properties.mag>6){
                 responder='Strong Good';
             }else if(item.properties.mag>7){
@@ -65,28 +65,30 @@ const MapPage = () => {
     //this runs at the start. It gets all the data from the date we started this app to present date and writes it to firebase
     const loadStuffInFirebase=()=>{
         //get the present data so that we can get the present data
-        const presentDateObject = new Date()
-        const presentDate = `${presentDateObject.getFullYear()}-${presentDateObject.getMonth()+1}-${presentDateObject.getDate()}`;
+        const presentDateObject = new Date();
+        const year = presentDateObject.getFullYear();
+        const month = String(presentDateObject.getMonth()).padStart(2, '0');
+        const day = String(presentDateObject.getDate()).padStart(2, '0');
+
+        const lastMonth = `${year}-${month}-${day}`;
+
         axios({
             url:'https://earthquake.usgs.gov/fdsnws/event/1/query',
-            params:{
-                format:'geojson',
-                starttime:'2022-11-03',
-                endtime:presentDate,
-            }
+                params:{
+                    format:'geojson',
+                    starttime:lastMonth,
+                    endtime:presentDate
+                }
         }).then((res)=>{
             //write this to firebase
             writeToFirebase(res.data);
-
+            console.log(res.data)
         }).catch((err)=>{
             console.log(err);
         })
         
     }
 
-
-
- 
 
     //lets say the current entry in the database is
     let currentEntry={
@@ -195,7 +197,7 @@ const MapPage = () => {
     <>
     <div className='mapPage wrapper'>
     <div className='mapPageH1Logo '>
-            <Link exact to="/">
+            <Link to ="/">
                 <figure className='mapPageArrow'>
                     <img src={arrow} alt="arrow to home"></img>
                 </figure>

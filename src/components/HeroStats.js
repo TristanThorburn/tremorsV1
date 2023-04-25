@@ -51,7 +51,7 @@ const HeroStats = (props) => {
         <div className='heroFooter tabletHidden'>
             <button className='left' onClick={changeIndex} name='previous'> Prev </button>
             <button className='right' onClick={changeIndex} name='next'> Next </button>
-            <Link to='/about' className="aboutLink"><button className='madeBy'> Stats since Nov 3, 2022</button></Link>
+            <Link to='/about' className="aboutLink"><button className='madeBy'>1 Month of Stats</button></Link>
         </div>    
     </div>
   )

@@ -55,25 +55,25 @@ const DisplayMap = (props) => {
                       
                         {
                             
-                            props.markerPopupInfo!==[]?
-                            props.markerPopupInfo.map((item)=>{
-                                return(
-                                <Marker 
-                                    position={[item.coords[1],item.coords[0]]} 
-                                    icon={customIcon(item.popupInfo.magnitude)}
-                                    key={item.id}
-                                    
-                                    >
-                                    <Popup>
-                                    Magnitude:{item.popupInfo.magnitude}, <br/>
-                                    Place:{item.popupInfo.place},
-                                    responder:{item.popupInfo.responder}
-                                    
-                                    </Popup>
-                                </Marker>
-                                )
-                            })
-                            :<></>
+                            props.markerPopupInfo !==[]
+                                ? props.markerPopupInfo.map((item)=>{
+                                    return(
+                                    <Marker 
+                                        position={[item.coords[1],item.coords[0]]} 
+                                        icon={customIcon(item.popupInfo.magnitude)}
+                                        key={item.id}
+                                        
+                                        >
+                                        <Popup>
+                                        Magnitude:{item.popupInfo.magnitude}, <br/>
+                                        Place:{item.popupInfo.place},
+                                        responder:{item.popupInfo.responder}
+                                        
+                                        </Popup>
+                                    </Marker>
+                                    )
+                                })
+                                :<></>
                         }
                 </MapContainer>
         </div>

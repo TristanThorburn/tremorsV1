@@ -12,8 +12,9 @@ const InputFormComponent = (props) => {
 
     //lets add the states
     const [minState,setMinState]=useState(0);
+    var todayDate = new Date().toISOString().slice(0, 10);
     const [startDateState,setStartDate] = useState("2021-11-03");
-    const [endDateState,setEndDate]= useState("2022-11-03")
+    const [endDate,setEndDate]= useState(todayDate)
     
 
     const placeRef = useRef('');
@@ -49,7 +50,7 @@ const getPlaceQuery=(e)=>{
                     longitude:coords[0],
                     maxradiuskm:50,
                     starttime:startDateState,
-                    endtime:endDateState,
+                    endtime:endDate,
                     minmagnitude:minState,
                 }
             }).then((earthquakeResponse)=>{
@@ -98,7 +99,6 @@ const handleSubmit = (e) => {
             props.coordsAndMarkerData(latitude,longitude,[]);
         }else{
             const presentDateObject = new Date()
-            const presentDate = `${presentDateObject.getFullYear()}-${presentDateObject.getMonth()+1}-${presentDateObject.getDate()}`;
             
             const yesterday = `${presentDateObject.getFullYear()}-${presentDateObject.getMonth()+1}-${presentDateObject.getDate()-1}`;
            
@@ -107,7 +107,7 @@ const handleSubmit = (e) => {
                 params:{
                     format:'geojson',
                     starttime:yesterday,
-                    endtime:presentDate,
+                    endtime:endDate,
                 }
             }).then((res)=>{
                 //this data means that the original map is here, we can send it to the marker info thing from here              
@@ -143,7 +143,7 @@ const handleSubmit = (e) => {
                 </div>
                 <div className="queryContainer">
                     <label htmlFor='endDate' className='queryLabel dateLabel'>End Date </label>
-                    <input type="date" name='endDate' onChange={getDateQuery} disabled={last24hours} value={endDateState} className='dateInput'/>
+                    <input type="date" name='endDate' onChange={getDateQuery} disabled={last24hours} value={endDate} className='dateInput'/>
                 </div>
             </div>
         </form>
